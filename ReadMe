@@ -5,4 +5,5 @@ I initialy wanted to upload it because i didn't found something on web.
 Because of the math lib you have to run it on gcc with -lm
 
 compiling $ gcc opm-Pi-wallis.c -o omp-Pi-wallis -fopenmp
+runnung   $ ./omp-Pi-wallis
 I just wanted to measure the time my pc would take to run it!!
