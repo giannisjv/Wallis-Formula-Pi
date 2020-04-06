@@ -1,0 +1,8 @@
+Hello everyone this is my point of view about Wallis formula for finding Pi.
+I hope that it will help someone out there.
+I initialy wanted to upload it because i didn't found something on web.
+
+Because of the math lib you have to run it on gcc with -lm
+
+compiling $ gcc opm-Pi-wallis.c -o omp-Pi-wallis -fopenmp
+I just wanted to measure the time my pc would take to run it!!
