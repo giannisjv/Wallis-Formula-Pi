@@ -10,7 +10,7 @@ int main(int *argc, char **argv){
     //printf("\n Give Number of loops: ");
 	//scanf("%d",&N);
 	
-	printf("\nNumber pf cores: ");
+	printf("\nNumber of cores: ");
 	scanf("%d",&cores);
 	
 
