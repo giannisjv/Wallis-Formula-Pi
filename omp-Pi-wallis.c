@@ -39,7 +39,7 @@ int main(int *argc, char **argv){
     
     CPU_time = et - st;
         
-        printf("\nThe pi is %5.10f\t", pi);
+        printf("\nThe pi is %5.10f\t", sta_pi);
         printf("The time with %2d core and chunk %2d is %10.6f\t",c, chunk, CPU_time);
 
         }
