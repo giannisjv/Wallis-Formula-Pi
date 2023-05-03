@@ -1,46 +1,86 @@
-// author giannisjv
+/*
+=========================================
+| Hello Everyone this is my attempt to  |
+| solve Wallis product in C with OpenMP |
+| Run the program and see how Pi is     |
+|                generated              |
+=========================================
+*/
+
 #include <stdio.h>
 #include <omp.h>
-#include <math.h>
-//#define cores 4
-int main(int *argc, char **argv){
-    int N, i, c ,cores;
-    double et, st,time[10], pi = 1.0;
-    int begin = 100000000, end = 1000000000 ,step = 100000000;
-    //printf("\n Give Number of loops: ");
-	//scanf("%d",&N);
-	
-	printf("\nNumber of cores: ");
-	scanf("%d",&cores);
-	
 
-   for(N=begin; N<=end; N+=step){
+#define N 100000000
+
+double static_Pi(int chunk, int cores);
+double dynamic_Pi(int chunk, int cores);
+double guided_Pi(int chunk, int cores);
+
+int main(int *argc, char **argv){
     
-   for(c=1;c<=cores;c++){
+    int chunk; // chunk is a number that defines scheduler portion
+    int i; // is used for a simple loop
+
+    int  c, cores = omp_get_max_threads(); // how many cores  will be in use 
+    // omp_get_max_threads() will get all of the cores of your CPU 
     
-    time[i] = 0;
-	st = omp_get_wtime();
-	
-   
-    	#pragma omp parallel for num_threads(c) reduction(*:pi)
+    double et, st, CPU_time = 0; // Initiating the timers
+    double sta_pi; // Pi variable for static
+    double dyn_pi; // Pi variable for dynamic
+    double gui_pi; // Pi variable for guided
+
+    for (chunk = 1; chunk <= 4096; chunk *= 2){
+        for(c=1; c<=cores; c *= 2){
+            
+	        st = omp_get_wtime();
+                sta_pi = static_Pi(chunk, c);
+
+            et = omp_get_wtime();
+    
+    CPU_time = et - st;
+        
+        printf("\nThe pi is %5.10f\t", pi);
+        printf("The time with %2d core and chunk %2d is %10.6f\t",c, chunk, CPU_time);
+
+        }
+        printf("\n");
+    }
+
+/*
+    #pragma omp parallel for schedule(static, 4096) num_threads(c) reduction(*:pi)
         for (i=1; i<N; i++)
             pi *= (4.0 * i * i )/(4.0 * i * i - 1);
         pi *= 2;
-     
-    et = omp_get_wtime();
-	time[i] = et - st;
-	
-        
-        printf("\n %.10f\t",pi);
-        printf("The time with %2d core is %10.6f\t\n",c,time[i]);
 
-        pi = 1.0;
-                }
-    
-    printf("\n The number of loops was 0 to %d\n",N);
-    printf("\nPi %.10f", M_PI);
-    }
+    printf("\npi: %.6f\n", pi);
+*/
     return 0;
     
 } 
 
+double static_Pi(int chunk, int core){
+int i; 
+double sum = 1;
+	#pragma omp parallel for schedule(static, chunk) num_threads(core) reduction(*:sum)
+        for (i=1; i<=N; i++)
+            sum *= (4.0 * i * i )/(4.0   * i * i - 1);
+     return sum *= 2;
+}
+
+double dynamic_Pi(int chunk, int core){
+int i; 
+double sum = 1;
+	#pragma omp parallel for schedule(static, chunk) num_threads(core) reduction(*:sum)
+        for (i=1; i<=N; i++)
+            sum *= (4.0 * i * i )/(4.0   * i * i - 1);
+     return sum *= 2;
+}
+
+double guided_Pi(int chunk, int core){
+int i; 
+double sum = 1;
+	#pragma omp parallel for schedule(static, chunk) num_threads(core) reduction(*:sum)
+        for (i=1; i<=N; i++)
+            sum *= (4.0 * i * i )/(4.0   * i * i - 1);
+     return sum *= 2;
+}
