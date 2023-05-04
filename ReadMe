@@ -1,9 +1,6 @@
-Hello everyone this is my point of view about Wallis formula for finding Pi in C programming langauge.
-I hope that it will help someone out there.
-I initialy wanted to upload it because i didn't found something on web.
+Hello everyone this is Wallis formula for finding Pi in C using Parallel programming with OpenMP.
 
-Because of the math lib you have to run it on gcc with -lm
+Wallis product for Pi, is published in 1656 by John Wallis.
+Wallis realized that 
 
-compiling $ gcc opm-Pi-wallis.c -o omp-Pi-wallis -fopenmp
-runnung   $ ./omp-Pi-wallis
-I just wanted to measure the time my pc would take to run it!!
+π/2 
