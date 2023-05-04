@@ -1,6 +1,8 @@
-##headings Pi Wallis Product
+Pi Wallis Product
 
 Hello everyone this is Wallis formula for finding Pi in C using Parallel programming with OpenMP.
 
 Wallis product for Pi, is published in 1656 by John Wallis.
 Wallis realized that 
+
+![Pi-Wallis](https://user-images.githubusercontent.com/24521709/236179825-8c610f79-e07a-45ab-9b88-881fe3132f3d.png)
