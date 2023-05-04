@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <omp.h>
 
-#define N 100000000
+#define N 1000000000
 
 double static_Pi(int chunk, int cores);
 double dynamic_Pi(int chunk, int cores);
@@ -71,30 +71,39 @@ printf("\n==================================== For N: %d The pi is =============
 
 
 /*  To understand the fuctions below  read this.
-    pragma uses
-     
-     - for (Indicates that it has to run a for. Collapse for manual determination of for.)
-            (e.g #pragma omp parallel for collapse(2)
-            for(.......){
-                for(......)
-                    // your code !!!
-            })
+    
+->pragma uses
+    - for (Indicates that it has to run a for. Collapse for manual determination of for.)
+                (e.g #pragma omp parallel for collapse(2)
+                for(.......){
+                    for(......)
+                        // your code !!!
+                })
 
-     - shedule (Indicates the scheduler (""static or palallel or guided"", chunk))
+    - shedule (Indicates the scheduler (""static or palallel or guided"", chunk))
                 chunk indicates how the processes are shared amoung CPU cores.
 
-     - num_threads (Indicates the number of cores will be used.)
-                 (e.g. num_threads(4) in order to use (4) cores)
+    - num_threads (Indicates the number of cores will be used.)
+                (e.g. num_threads(4) in order to use (4) cores)
 
-     - reduction (Indicates the operation on a variable)
+    - reduction (Indicates the operation on a variable)
                 When a core finishes his processes, he will send 
                 the sum of his operations to the master. Once every
                 core will send all of his operations, the master will
                 sum the result and save it to the variable in reduction.
-                
+                the operations allowed in reduction are 
+                            "+, -, *, &, |, ^, && and ||"
+    
+->The mathematical part of the function 
+    - for (Indicates a loop from 1 to N)
 
+    - the mathematical process of sum below for
+                multiplies the sum variable with (4.0 * i * i) / (4.0 * i * i - 1)
+                this operation will continue till N
+                the sum variable is defined as double and the initial value is "1"
+                once the loop is finished, before return the value we multiply it by 2
 
-
+-> As you probably imagine Bigger "N" means greater results.  
 
  */
 
@@ -102,7 +111,7 @@ double static_Pi(int chunk, int core){ // Parallel function for Pi Wallis in Sta
 double sum = 1.0;
 	#pragma omp parallel for schedule(static, chunk) num_threads(core) reduction(*:sum)
         for (int i=1; i<=N; i++)
-            sum *= (4.0 * i * i )/(4.0   * i * i - 1);
+            sum *= (4.0 * i * i )/(4.0   * i * i - 1); 
      return sum *= 2;
 }
 
