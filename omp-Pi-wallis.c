@@ -104,6 +104,7 @@ printf("\n==================================== For N: %d The pi is =============
                 once the loop is finished, before return the value we multiply it by 2
 
 -> As you probably imagine Bigger "N" means greater results.  
+ 
  */
 
 double static_Pi(int chunk, int core){ // Parallel function for Pi Wallis in Static 
